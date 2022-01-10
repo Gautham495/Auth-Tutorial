@@ -43,6 +43,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = authtutorial/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A764B9D49F18901A7FAB0237 /* libPods-authtutorial.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-authtutorial.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC130D182789EBF300246CAA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "authtutorial/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AC130D1A278AFF4E00246CAA /* authtutorial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = authtutorial.entitlements; path = authtutorial/authtutorial.entitlements; sourceTree = "<group>"; };
 		E3EE399DD53ACB4004C72A02 /* Pods-authtutorial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-authtutorial.debug.xcconfig"; path = "Target Support Files/Pods-authtutorial/Pods-authtutorial.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F27C68293A400D39460AFD78 /* Pods-authtutorial-authtutorialTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-authtutorial-authtutorialTests.release.xcconfig"; path = "Target Support Files/Pods-authtutorial-authtutorialTests/Pods-authtutorial-authtutorialTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		13B07FAE1A68108700A75B9A /* authtutorial */ = {
 			isa = PBXGroup;
 			children = (
+				AC130D1A278AFF4E00246CAA /* authtutorial.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -501,7 +503,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = authtutorial/authtutorial.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7JNWKV43NC;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = authtutorial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -527,7 +531,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = authtutorial/authtutorial.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7JNWKV43NC;
 				INFOPLIST_FILE = authtutorial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

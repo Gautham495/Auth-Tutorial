@@ -1,26 +1,34 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
 
-GoogleSignin.configure({
-  webClientId:
-    '745305328860-3e60bmsvapbft8kh1dr0vf0u3h2239cp.apps.googleusercontent.com',
-});
+import {
+  appleAuth,
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
+
 
 const App = () => {
   const [user, setUser] = useState(null);
 
-  const onGoogleButtonPress = async () => {
-    const {idToken} = await GoogleSignin.signIn();
+  async function onAppleButtonPress() {
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
 
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    if (!appleAuthRequestResponse.identityToken) {
+      throw 'Apple Sign-In failed - no identify token returned';
+    }
 
-    return auth().signInWithCredential(googleCredential);
-  };
+    const {identityToken, nonce} = appleAuthRequestResponse;
+    const appleCredential = auth.AppleAuthProvider.credential(
+      identityToken,
+      nonce,
+    );
+
+    return auth().signInWithCredential(appleCredential);
+  }
 
   const onAuthStateChanged = async userAuth => {
     if (!userAuth) {
@@ -48,21 +56,23 @@ const App = () => {
     return () => userReference();
   };
 
- 
-
   return (
     <SafeAreaView style={{alignItems: 'center', flex: 1, marginTop: 100}}>
       <View style={{margin: 10}}>
-        <Text>Google Sign In Tutorial</Text>
+        <Text>Apple Sign In Tutorial</Text>
       </View>
 
       <View style={{margin: 10}}>
         {user === null && (
-          <GoogleSigninButton
+          <AppleButton
+            buttonStyle={AppleButton.Style.BLACK}
+            buttonType={AppleButton.Type.SIGN_IN}
             style={{width: 312, height: 48}}
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Light}
-            onPress={onGoogleButtonPress}
+            onPress={() =>
+              onAppleButtonPress().then(() =>
+                console.log('Apple sign-in complete!'),
+              )
+            }
           />
         )}
       </View>
