@@ -1,26 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
-
-GoogleSignin.configure({
-  webClientId:
-    '745305328860-3e60bmsvapbft8kh1dr0vf0u3h2239cp.apps.googleusercontent.com',
-});
+import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 
 const App = () => {
   const [user, setUser] = useState(null);
 
-  const onGoogleButtonPress = async () => {
-    const {idToken} = await GoogleSignin.signIn();
+  async function onFacebookButtonPress() {
+    const result = await LoginManager.logInWithPermissions([
+      'public_profile',
+      'email',
+    ]);
 
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    if (result.isCancelled) {
+      throw 'User cancelled the login process';
+    }
 
-    return auth().signInWithCredential(googleCredential);
-  };
+    const data = await AccessToken.getCurrentAccessToken();
+
+    if (!data) {
+      throw 'Something went wrong obtaining access token';
+    }
+
+    const facebookCredential = auth.FacebookAuthProvider.credential(
+      data.accessToken,
+    );
+
+    return auth().signInWithCredential(facebookCredential);
+  }
 
   const onAuthStateChanged = async userAuth => {
     if (!userAuth) {
@@ -48,22 +55,17 @@ const App = () => {
     return () => userReference();
   };
 
- 
-
   return (
     <SafeAreaView style={{alignItems: 'center', flex: 1, marginTop: 100}}>
       <View style={{margin: 10}}>
-        <Text>Google Sign In Tutorial</Text>
+        <Text>FaceBook Sign In Tutorial</Text>
       </View>
 
       <View style={{margin: 10}}>
         {user === null && (
-          <GoogleSigninButton
-            style={{width: 312, height: 48}}
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Light}
-            onPress={onGoogleButtonPress}
-          />
+         <TouchableOpacity onPress={onFacebookButtonPress} style={{alignItems: 'center'}}>
+         <Text>Login With FaceBook</Text>
+       </TouchableOpacity>
         )}
       </View>
       {user !== null && (
